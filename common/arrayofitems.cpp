@@ -1,5 +1,6 @@
 #include "arrayofitems.h"
 #include <assert.h>
+#include <memory.h>
 
 
 #define USE_FAST_SETITEM 1
