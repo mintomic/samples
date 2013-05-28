@@ -1,0 +1,3 @@
+[submodule "mintomic"]
+	path = mintomic
+	url = https://github.com/mintomic/mintomic.git
