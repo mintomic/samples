@@ -24,7 +24,7 @@ private:
     uint32_t m_numPairs;
     int m_numThreads;
     ArrayOfItems* m_collection;
-#if TEST_LOOKUP        
+#if TEST_LOOKUP
     mint_atomic32_t m_failed;
 #endif    
     
@@ -41,7 +41,7 @@ private:
             m_collection->SetItem(pair->key, pair->value);
         }
 
-#if TEST_LOOKUP        
+#if TEST_LOOKUP
         for (uint32_t i = lo; i < hi; i++)
         {
             Pair* pair = &m_pairs[i];
@@ -68,6 +68,10 @@ public:
     {
         assert(s_instance == NULL);
         s_instance = this;
+
+#if TEST_LOOKUP
+        m_failed._nonatomic = 0;
+#endif
     }
 
     ~TestBed()
@@ -103,6 +107,10 @@ public:
         threads.run(threadFunc);
 
         // Check result
+#if TEST_LOOKUP
+        if (m_failed._nonatomic)
+            exit(1);
+#endif
         for (uint32_t i = 0; i < numPairs; i++)
         {
             Pair* pair = &m_pairs[i];
