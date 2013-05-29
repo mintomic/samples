@@ -103,7 +103,6 @@ public:
 
         // Kick off threads
         ThreadSynchronizer threads(numThreads);
-        mint_timer_tick_t start = mint_timer_get();
         threads.run(threadFunc);
 
         // Check result
