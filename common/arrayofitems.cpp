@@ -43,10 +43,10 @@ void ArrayOfItems::SetItem(uint32_t key, uint32_t value)
                 
             // The entry was free. Now let's try to take it using a CAS.
             uint32_t prevKey = mint_compare_exchange_strong_32_relaxed(&m_entries[idx].key, 0, key);
-            if (prevKey != 0)
+            if ((prevKey != 0) && (prevKey != key))
                 continue;       // Another thread just stole it from underneath us.
 
-            // We just added the key.
+            // Either we just added the key, or another thread did.
         }
         
         // Store the value in this array entry.
