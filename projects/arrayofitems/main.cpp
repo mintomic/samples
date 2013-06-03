@@ -97,8 +97,8 @@ public:
         Random valueSeq;        
         for (uint32_t i = 0; i < numPairs; i++)
         {
-            do { m_pairs[i].key = keySeq.generateUnique(); } while (m_pairs[i].key == 0);
-            do { m_pairs[i].value = valueSeq.generateUnique(); } while (m_pairs[i].value == 0);
+            do { m_pairs[i].key = keySeq.generateUnique32(); } while (m_pairs[i].key == 0);
+            do { m_pairs[i].value = valueSeq.generateUnique32(); } while (m_pairs[i].value == 0);
         }
 
         // Kick off threads
