@@ -34,4 +34,4 @@ After running CMake, you will be left with some project/solution files for your 
 
 It's highly recommended to build and run the Release configuration. Select this in your IDE the usual way, or if you're working with Unix Makefiles, specify the build type on the CMake command line:
 
-    $ cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+    $ cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
