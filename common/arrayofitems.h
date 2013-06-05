@@ -37,6 +37,7 @@ public:
     // Basic operations
     void SetItem(uint32_t key, uint32_t value);
     uint32_t GetItem(uint32_t key);
+    uint32_t GetItemCount();
     void Clear();
 };
 

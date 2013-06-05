@@ -86,6 +86,18 @@ uint32_t ArrayOfItems::GetItem(uint32_t key)
 
 
 //----------------------------------------------
+uint32_t ArrayOfItems::GetItemCount()
+{
+    for (uint32_t idx = 0;; idx++)
+    {
+        uint32_t probedKey = mint_load_32_relaxed(&m_entries[idx].key);
+        if (probedKey == 0)
+            return idx;
+    }
+}
+
+
+//----------------------------------------------
 void ArrayOfItems::Clear()
 {
     memset(m_entries, 0, sizeof(Entry) * m_arraySize);
