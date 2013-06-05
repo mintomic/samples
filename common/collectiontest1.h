@@ -101,7 +101,7 @@ namespace CollectionTest1
     //--------------------------------------------------------------
     //  Return an IExperiment object suitable for passing to LoopForever.
     //--------------------------------------------------------------
-    IExperiment* CreateExperiment(BasePlugin* plugin);
+    IExperiment* CreateExperiment(BasePlugin* plugin, uint32_t numItems, uint32_t tableSize);
 } // namespace CollectionTest1
 
 

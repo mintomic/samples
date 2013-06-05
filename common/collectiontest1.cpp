@@ -89,8 +89,8 @@ namespace CollectionTest1
         }
     };
 
-    IExperiment* CreateExperiment(BasePlugin* plugin)
+    IExperiment* CreateExperiment(BasePlugin* plugin, uint32_t numItems, uint32_t tableSize)
     {
-        return new Experiment(plugin, 4000, 4096, 2);
+        return new Experiment(plugin, numItems, tableSize, 2);
     }
 } // namespace CollectionTest1

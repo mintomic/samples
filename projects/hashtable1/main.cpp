@@ -1,4 +1,4 @@
-#include <common/arrayofitems.h>
+#include <common/hashtable1.h>
 #include <common/collectiontest1.h>
 #include <common/collectiontest2.h>
 #include <common/experiment.h>
@@ -11,10 +11,10 @@ int main()
     mint_timer_initialize();
 
     std::vector<IExperiment*> exps;
-    CollectionTest1::Plugin<ArrayOfItems> handler;
-    exps.push_back(CollectionTest1::CreateExperiment(&handler, 4000, 4096));
-    CollectionTest2::Plugin<ArrayOfItems> handler2;
-    exps.push_back(CollectionTest2::CreateExperiment(&handler2, 4000, 4096));
+    CollectionTest1::Plugin<HashTable1> handler;
+    exps.push_back(CollectionTest1::CreateExperiment(&handler, 12000, 16384));
+    CollectionTest2::Plugin<HashTable1> handler2;
+    exps.push_back(CollectionTest2::CreateExperiment(&handler2, 12000, 16384));
 
     LoopForever(exps);
 

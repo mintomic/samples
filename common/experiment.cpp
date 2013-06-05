@@ -25,7 +25,7 @@ void LoopForever(const std::vector<IExperiment*>& exps)
         {
             printf("------------------------------------\n");
             for (size_t j = 0; j < exps.size(); j++)
-                printf("experiment #%d: %d iterations, failures = %d, average = %f ms\n", (int) j, timeKeepers[j].trials, timeKeepers[j].failures, timeKeepers[j].getAverageTime() * 1000);
+                printf("experiment #%d: %d trials, %d failures, average=%f ms\n", (int) j, timeKeepers[j].trials, timeKeepers[j].failures, timeKeepers[j].getAverageTime() * 1000);
             nextLog = now + logInterval;
         }
     }

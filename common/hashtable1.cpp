@@ -1,4 +1,4 @@
-#include "arrayofitems.h"
+#include "hashtable1.h"
 #include <assert.h>
 #include <memory.h>
 
@@ -7,9 +7,23 @@
 
 
 //----------------------------------------------
-ArrayOfItems::ArrayOfItems(uint32_t arraySize)
+// from code.google.com/p/smhasher/wiki/MurmurHash3
+inline static uint32_t integerHash(uint32_t h)
+{
+	h ^= h >> 16;
+	h *= 0x85ebca6b;
+	h ^= h >> 13;
+	h *= 0xc2b2ae35;
+	h ^= h >> 16;
+	return h;
+}
+
+
+//----------------------------------------------
+HashTable1::HashTable1(uint32_t arraySize)
 {
     // Initialize cells
+    assert((arraySize & (arraySize - 1)) == 0);   // Must be a power of 2
     m_arraySize = arraySize;
     m_entries = new Entry[arraySize];
     Clear();
@@ -17,7 +31,7 @@ ArrayOfItems::ArrayOfItems(uint32_t arraySize)
 
 
 //----------------------------------------------
-ArrayOfItems::~ArrayOfItems()
+HashTable1::~HashTable1()
 {
     // Delete cells
     delete[] m_entries;
@@ -26,13 +40,15 @@ ArrayOfItems::~ArrayOfItems()
 
 //----------------------------------------------
 #if USE_FAST_SETITEM
-void ArrayOfItems::SetItem(uint32_t key, uint32_t value)
+void HashTable1::SetItem(uint32_t key, uint32_t value)
 {
     assert(key != 0);
     assert(value != 0);
 
-    for (uint32_t idx = 0;; idx++)
+    for (uint32_t idx = integerHash(key);; idx++)
     {
+        idx &= m_arraySize - 1;
+
         // Load the key that was there.
         uint32_t probedKey = mint_load_32_relaxed(&m_entries[idx].key);
         if (probedKey != key)
@@ -55,13 +71,15 @@ void ArrayOfItems::SetItem(uint32_t key, uint32_t value)
     }
 }
 #else
-void ArrayOfItems::SetItem(uint32_t key, uint32_t value)
+void HashTable1::SetItem(uint32_t key, uint32_t value)
 {
     assert(key != 0);
     assert(value != 0);
 
-    for (uint32_t idx = 0;; idx++)
+    for (uint32_t idx = integerHash(key);; idx++)
     {
+        idx &= m_arraySize - 1;
+
         uint32_t prevKey = mint_compare_exchange_strong_32_relaxed(&m_entries[idx].key, 0, key);
         if ((prevKey == 0) || (prevKey == key))
         {
@@ -73,12 +91,14 @@ void ArrayOfItems::SetItem(uint32_t key, uint32_t value)
 #endif
 
 //----------------------------------------------
-uint32_t ArrayOfItems::GetItem(uint32_t key)
+uint32_t HashTable1::GetItem(uint32_t key)
 {
     assert(key != 0);
 
-    for (uint32_t idx = 0;; idx++)
+    for (uint32_t idx = integerHash(key);; idx++)
     {
+        idx &= m_arraySize - 1;
+
         uint32_t probedKey = mint_load_32_relaxed(&m_entries[idx].key);
         if (probedKey == key)
             return mint_load_32_relaxed(&m_entries[idx].value);
@@ -89,19 +109,21 @@ uint32_t ArrayOfItems::GetItem(uint32_t key)
 
 
 //----------------------------------------------
-uint32_t ArrayOfItems::GetItemCount()
+uint32_t HashTable1::GetItemCount()
 {
-    for (uint32_t idx = 0;; idx++)
+    uint32_t itemCount = 0;
+    for (uint32_t idx = 0; idx < m_arraySize; idx++)
     {
-        if ((mint_load_32_relaxed(&m_entries[idx].key) == 0)
-            || (mint_load_32_relaxed(&m_entries[idx].value) == 0))
-            return idx;
+        if ((mint_load_32_relaxed(&m_entries[idx].key) != 0)
+            && (mint_load_32_relaxed(&m_entries[idx].value) != 0))
+            itemCount++;
     }
+    return itemCount;
 }
 
 
 //----------------------------------------------
-void ArrayOfItems::Clear()
+void HashTable1::Clear()
 {
     memset(m_entries, 0, sizeof(Entry) * m_arraySize);
 }
