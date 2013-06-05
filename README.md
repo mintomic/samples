@@ -1,6 +1,7 @@
-This repository contains some data structures and sample applications which demonstrate low-level lock-free concepts using [Mintomic](http://mintomic.github.io/).
+This repository contains some data structures and sample applications which demonstrate low-level lock-free concepts using [Mintomic](http://mintomic.github.io/). There are two sample applications:
 
-Right now, there is only one sample application: ArrayOfItems.
+* ArrayOfItems
+* HashTable1
 
 [CMake](http://www.cmake.org/cmake/resources/software.html) is required.
 
@@ -17,7 +18,7 @@ The repository contains Mintomic as a submodule. If you cloned using the above c
     $ cd samples
     $ git submodule update --init
 
-Next, descend into the `projects/arrayofitems/` subdirectory and run CMake as you normally would. It's customary to run it from a subdirectory named `build/`.
+Next, suppose you want to build the ArrayOfItems sample. Descend into the `projects/arrayofitems/` subdirectory and run CMake as you normally would. It's customary to run it from a subdirectory named `build/`.
 
     $ cd projects/arrayofitems
     $ mkdir build
@@ -34,4 +35,4 @@ After running CMake, you will be left with some project/solution files for your 
 
 It's highly recommended to build and run the Release configuration. Select this in your IDE the usual way, or if you're working with Unix Makefiles, specify the build type on the CMake command line:
 
-    $ cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+    $ cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" ..
