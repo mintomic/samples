@@ -13,7 +13,6 @@ void LoopForever(const std::vector<IExperiment*>& exps)
 
     mint_timer_tick_t logInterval = (mint_timer_tick_t) (1 * mint_timer_secondsToTicks);
     mint_timer_tick_t nextLog = mint_timer_get() + logInterval;
-    mint_timer_tick_t totalTime = 0;
     for (;;)
     {
         for (size_t i = 0; i < exps.size(); i++)
@@ -26,7 +25,7 @@ void LoopForever(const std::vector<IExperiment*>& exps)
         {
             printf("------------------------------------\n");
             for (size_t j = 0; j < exps.size(); j++)
-                printf("experiment #%d: %d iterations, failures = %d, average = %f ms\n", j, timeKeepers[j].trials, timeKeepers[j].failures, timeKeepers[j].getAverageTime() * 1000);
+                printf("experiment #%d: %d iterations, failures = %d, average = %f ms\n", (int) j, timeKeepers[j].trials, timeKeepers[j].failures, timeKeepers[j].getAverageTime() * 1000);
             nextLog = now + logInterval;
         }
     }
