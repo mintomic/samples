@@ -9,9 +9,9 @@
 //
 //  Maps 32-bit integers to 32-bit integers.
 //  Uses open addressing with linear probing.
-//  You can call Lookup and Insert from several threads simultaneously.
-//  Lookup is wait-free.
-//  Insert is lock-free.
+//  You can call SetItem and GetItem from several threads simultaneously.
+//  GetItem is wait-free.
+//  SetItem is lock-free.
 //  You can't assign any value to key = 0.
 //  In the m_cells array, key = 0 is reserved to indicate an unused cell.
 //  You can't assign value = 0 to any key.
