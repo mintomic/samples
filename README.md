@@ -1,3 +1,7 @@
+*** **Update 2015-02-06: Mintomic is no longer being maintained.** Native C atomics are available in [Turf](https://github.com/preshing/turf) instead: https://github.com/preshing/turf/tree/master/turf/c ***
+
+---
+
 This repository contains some data structures and sample applications which demonstrate low-level lock-free concepts using [Mintomic](http://mintomic.github.io/). There are two sample applications:
 
 * ArrayOfItems
